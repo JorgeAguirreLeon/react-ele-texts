@@ -30,8 +30,8 @@ export default class Answer extends React.Component {
   }
 
   handleAnswerClick(event) {
-    let answer = this.props.answer.map((tag)=> { tag.toLowerCase(); })
-    let tags = this.state.tags.map((tag)=> { tag.toLowerCase(); });
+    let answer = this.props.answer.map((tag)=> { return tag.toLowerCase(); })
+    let tags = this.state.tags.map((tag)=> { return tag.toLowerCase(); });
     answer.sort();
     tags.sort();
     const valid_answer = this.validAnswer(answer, tags);
@@ -53,7 +53,7 @@ export default class Answer extends React.Component {
 
   arrayEquals(array_1, array_2) {
     if (array_1.length !== array_2.length) return false;
-    for (index in array_1) if (array_1[index] !== array_2[index]) return false;
+    for (var index in array_1) if (array_1[index] !== array_2[index]) return false;
     return true;
   }
 
@@ -61,7 +61,7 @@ export default class Answer extends React.Component {
     const actual_minimum = Math.min(minimum, answer.length);
     if (tags.length < actual_minimum) return false;
     // If any of the tags is not valid then return no
-    for (i in tags)
+    for (var i in tags)
       if (!(tags[i] in answer)) return false;
     // If all the tags are valid then check it's at least actual_minimum
     valid_tags = tags.length

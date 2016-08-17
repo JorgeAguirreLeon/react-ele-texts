@@ -8,7 +8,7 @@ const TagsAnswer = (props)=> {
   const renderTag = (_props)=> {
     if (_props.tag in props.highlight) className += ' higlighted-tag';
     return (
-      <span key={_props.key} className={_props.className} classNameRemove={_props.classNameRemove}>
+      <span key={_props.key} className={_props.className}>
         {_props.tag}
         <a onClick={(e) => _props.onRemove(_props.key)} />
       </span>
@@ -21,6 +21,7 @@ const TagsAnswer = (props)=> {
       onlyUnique={true}
       onChange={handleChange}
       renderTag={renderTag}
+      inputProps={{placeholder: 'Añadir'}}
     />
   );
 }

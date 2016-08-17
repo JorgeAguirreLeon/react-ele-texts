@@ -35,7 +35,7 @@ export default class Evaluation extends React.Component {
 
   rightAnswerHandler() {
     let self = this;
-    timeout_cb = ()=> {self.setState({activeTest: (self.state.activeTest + 1)})};
+    const timeout_cb = ()=> {self.setState({activeTest: (self.state.activeTest + 1)})};
     setTimeout(timeout_cb, 1000);
   }
 
