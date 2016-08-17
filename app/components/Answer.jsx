@@ -62,9 +62,9 @@ export default class Answer extends React.Component {
     if (tags.length < actual_minimum) return false;
     // If any of the tags is not valid then return no
     for (var i in tags)
-      if (!(tags[i] in answer)) return false;
+      if (answer.indexOf(tags[i]) === -1) return false;
     // If all the tags are valid then check it's at least actual_minimum
-    valid_tags = tags.length
+    let valid_tags = tags.length
     return valid_tags >= actual_minimum
   }
 
