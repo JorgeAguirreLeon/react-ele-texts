@@ -19,10 +19,6 @@ const Layout = (props)=> {
             <Link className='navbar-brand' to='/'>Español como Lengua Extranjera</Link>
           </div>
           <div className='collapse navbar-collapse' id='bs-example-navbar-collapse-1'>
-            <ul className='nav navbar-nav'>
-              <li className='active'><a href='#'>Link</a></li>
-              <li><a href='#'>Link</a></li>
-            </ul>
             <ul className='nav navbar-nav navbar-right'>
               <li><a href='#'>Link</a></li>
               <li className='dropdown'>
@@ -40,12 +36,7 @@ const Layout = (props)=> {
         </div>
       </nav>
       <div className='container main-container'>
-        <Evaluation
-          text={Data.text}
-          title={Data.title}
-          difficulty={Data.difficulty}
-          tests={Data.tests}
-        />
+        {props.children}
       </div>
       <Footer />
     </div>
