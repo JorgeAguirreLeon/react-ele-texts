@@ -1,4 +1,4 @@
-import React            from 'react';
+import React            from 'react'
 import TagsAnswer       from './TagsAnswer'
 import Alert            from './Alert'
 
@@ -26,11 +26,11 @@ export default class Answer extends React.Component {
   }
 
   handleTagsChange(tags) {
-    this.setState({tags: tags, alertVisible: false})
+    this.setState({tags: tags, alertVisible: false});
   }
 
   handleAnswerClick(event) {
-    let answer = this.props.answer.map((tag)=> { return tag.toLowerCase(); })
+    let answer = this.props.answer.map((tag)=> { return tag.toLowerCase(); });
     let tags = this.state.tags.map((tag)=> { return tag.toLowerCase(); });
     answer.sort();
     tags.sort();
@@ -64,8 +64,8 @@ export default class Answer extends React.Component {
     for (var i in tags)
       if (answer.indexOf(tags[i]) === -1) return false;
     // If all the tags are valid then check it's at least actual_minimum
-    let valid_tags = tags.length
-    return valid_tags >= actual_minimum
+    let valid_tags = tags.length;
+    return valid_tags >= actual_minimum;
   }
 
   render() {
@@ -74,7 +74,7 @@ export default class Answer extends React.Component {
 
     const alert = (this.state.alertVisible) ? (
       <div className='col-xs-12'>
-        <Alert text={this.state.alertText} visible={this.state.alertVisible} type={this.state.alertType}/>
+        <Alert text={this.state.alertText} visible={this.state.alertVisible} type={this.state.alertType} />
       </div>
     ) : null;
 

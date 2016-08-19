@@ -1,6 +1,7 @@
 import React                                      from 'react'
 import Layout                                     from './Layout'
-import {Router, Route, Link, useRouterHistory}    from 'react-router'
+import {Router, useRouterHistory}                 from 'react-router'
+import {Route, IndexRoute}                        from 'react-router'
 import {createHashHistory}                        from 'history'
 
 import Exercise                                   from './views/Exercise'
@@ -13,7 +14,7 @@ const Routes = (props)=> {
   return (
     <Router history={appHistory}>
       <Route name='app' path='/' component={Layout}>
-        <Route path='main' component={Exercise} />
+        <IndexRoute component={Exercise} />
         <Route path='select' component={Selector} />
       </Route>
     </Router>

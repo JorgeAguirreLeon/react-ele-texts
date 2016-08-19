@@ -20,15 +20,12 @@ const Layout = (props)=> {
           </div>
           <div className='collapse navbar-collapse' id='bs-example-navbar-collapse-1'>
             <ul className='nav navbar-nav navbar-right'>
-              <li><a href='#'>Link</a></li>
               <li className='dropdown'>
-                <a href='#' className='dropdown-toggle' data-toggle='dropdown' role='button' aria-haspopup='true' aria-expanded='false'>Dropdown <span className='caret' /></a>
+                <a href='#' className='dropdown-toggle' data-toggle='dropdown' role='button' aria-haspopup='true' aria-expanded='false'>Opciones <span className='caret' /></a>
                 <ul className='dropdown-menu'>
-                  <li><a href='#'>Action</a></li>
-                  <li><a href='#'>Action 2</a></li>
-                  <li><a href='#'>Action 3</a></li>
+                  <li><Link to='/select'>Elegir texto</Link></li>
                   <li role='separator' className='divider' />
-                  <li><a href='#'>Action 4</a></li>
+                  <li><Link to='/'>Inicio</Link></li>
                 </ul>
               </li>
             </ul>

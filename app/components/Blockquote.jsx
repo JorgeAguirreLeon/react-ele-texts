@@ -3,7 +3,7 @@ import React from 'react'
 const Blockquote = (props)=> {
 
   const text_content = props.text.map((content, index)=> {
-    return <p key={index}>{content}</p>
+    return (<p key={index}>{content}</p>);
   });
 
   return (

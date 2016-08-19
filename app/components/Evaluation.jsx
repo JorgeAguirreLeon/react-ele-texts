@@ -21,12 +21,12 @@ export default class Evaluation extends React.Component {
   }
 
   getCompletion() {
-    if (this.state.activeTest === this.props.tests.length) return 100
-    else return (this.state.activeTest / this.props.tests.length) * 100
+    if (this.state.activeTest === this.props.tests.length) return 100;
+    else return (this.state.activeTest / this.props.tests.length) * 100;
   }
 
   isFinished() {
-    return this.getCompletion() === 100
+    return this.getCompletion() === 100;
   }
 
   getActiveTest() {
@@ -35,7 +35,7 @@ export default class Evaluation extends React.Component {
 
   rightAnswerHandler() {
     let self = this;
-    const timeout_cb = ()=> {self.setState({activeTest: (self.state.activeTest + 1)})};
+    const timeout_cb = ()=> {self.setState({activeTest: (self.state.activeTest + 1)}); };
     setTimeout(timeout_cb, 1000);
   }
 
@@ -44,7 +44,7 @@ export default class Evaluation extends React.Component {
       return (<Alert type='success' text='Enhorabuena, has completado este ejercicio'/>);
     else {
       const active_test = this.getActiveTest();
-      const title = (active_test.request === 'all') ? `Identifica los ${active_test.type} en el texto` : `Identifica al menos ${active_test.request} ${active_test.type} en el texto`
+      const title = (active_test.request === 'all') ? `Identifica los ${active_test.type} en el texto` : `Identifica al menos ${active_test.request} ${active_test.type} en el texto`;
       return [
         <h2 key='title' className='instructions-subtitle'>{title}</h2>,
         <Answer key='answer' answer={active_test.answer} request={active_test.request} onRightAnswer={this.rightAnswerHandler}/>
