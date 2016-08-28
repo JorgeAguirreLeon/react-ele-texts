@@ -21,19 +21,21 @@ const TagsAnswer = (props)=> {
       onlyUnique={true}
       onChange={handleChange}
       renderTag={renderTag}
-      inputProps={{placeholder: 'Añadir'}}
+      inputProps={{placeholder: props.placeholder}}
     />
   );
 }
 
 TagsAnswer.propTypes = {
   highlight: React.PropTypes.array,
+  placeholder: React.PropTypes.string,
   tags: React.PropTypes.array,
   onChange: React.PropTypes.func
 }
 
 TagsAnswer.defaultProps = {
   highlight: [],
+  placeholder: 'Añadir',
   tags: [],
   onChange: ()=>{}
 }

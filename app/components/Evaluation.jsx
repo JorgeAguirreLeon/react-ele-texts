@@ -44,7 +44,7 @@ export default class Evaluation extends React.Component {
       return (<Alert type='success' text='Enhorabuena, has completado este ejercicio'/>);
     else {
       const active_test = this.getActiveTest();
-      const title = (active_test.request === 'all') ? `Identifica los ${active_test.type} en el texto` : `Identifica al menos ${active_test.request} ${active_test.type} en el texto`;
+      const title = (active_test.request === 'all') ? `Identifica los ${active_test.word_type} en el texto` : `Identifica al menos ${active_test.request} ${active_test.word_type} en el texto`;
       return [
         <h2 key='title' className='instructions-subtitle'>{title}</h2>,
         <Answer key='answer' answer={active_test.answer} request={active_test.request} onRightAnswer={this.rightAnswerHandler}/>
