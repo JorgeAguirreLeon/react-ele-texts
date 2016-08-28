@@ -1,3 +1,5 @@
+import Data      from './Data.jsx'
+
 const Session = {
 
   saveActiveText: (text_id)=> {
@@ -5,7 +7,13 @@ const Session = {
   },
 
   getActiveText: ()=> {
-    return localStorage.getItem('active_text');
+    console.log(Data);
+    console.log(Data.base);
+    const item = localStorage.getItem('active_text');
+    if (item != null) return item
+    //Set a nice default
+    Session.saveActiveText(Data.base().id);
+    return Data.base().id;
   }
 }
 

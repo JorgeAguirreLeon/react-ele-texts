@@ -8,7 +8,8 @@ export default class Selector extends React.Component {
     super(props);
     //Initial state
     this.state = {
-      active_text: ''
+      active_text: '',
+      texts: []
     };
   }
 
@@ -16,6 +17,9 @@ export default class Selector extends React.Component {
     if (window.location.search != '?') window.location.search = '?';
     const active_text = Session.getActiveText();
     this.setState({active_text: active_text});
+    Data.getTexts((texts)=> {
+      this.setState({texts});
+    })
   }
 
   getDifficulty(difficulty) {
@@ -38,7 +42,7 @@ export default class Selector extends React.Component {
     const self = this;
     const active_text = this.state.active_text;
 
-    const rows = Data.texts.map((text, i)=> {
+    const rows = this.state.texts.map((text, i)=> {
       const activo = text.id === active_text;
       const difficulty = this.getDifficulty(text.difficulty);
       const button_class = 'btn btn-sm btn-success text-uppercase';
