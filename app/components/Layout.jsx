@@ -25,6 +25,8 @@ const Layout = (props)=> {
                 <ul className='dropdown-menu'>
                   <li><Link to='/select'>Elegir texto</Link></li>
                   <li role='separator' className='divider' />
+                  <li><Link to='/upload'>Subir texto</Link></li>
+                  <li role='separator' className='divider' />
                   <li><Link to='/'>Inicio</Link></li>
                 </ul>
               </li>
