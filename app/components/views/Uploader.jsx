@@ -24,6 +24,10 @@ export default class Uploader extends React.Component {
     this.renderUploadForm = this.renderUploadForm.bind(this);
   }
 
+  componentWillMount() {
+    if (window.location.search != '?') window.location.search = '?';
+  }
+
   handleTextareaChange(event) {
     const text = event.target.value;
     this.setState({input_text: text});
@@ -32,7 +36,7 @@ export default class Uploader extends React.Component {
   handleTextSubmit() {
     this.setState({text_submitted: true}, ()=> {
       const text_encoded = encodeURIComponent(this.state.input_text);
-      const host = 'http://freeling.webapi.es?text=' + text_encoded;
+      const host = '//freeling.webapi.es?text=' + text_encoded;
 
       const request = new XMLHttpRequest();
       request.onreadystatechange = ()=> {
@@ -52,13 +56,13 @@ export default class Uploader extends React.Component {
             verbos_futuro: [],
           };
           tokens.forEach((token, index)=> {
-            if (token.tag.match(/^A[A-Z0]{2}M.*$/)) tokens_ejercicios.adjetivos_masculinos.push(token.form);
-            if (token.tag.match(/^A[A-Z0]{2}F.*$/)) tokens_ejercicios.adjetivos_femeninos.push(token.form);
-            if (token.tag.match(/^A[A-Z0]{2}P.*$/)) tokens_ejercicios.adjetivos_plurales.push(token.form);
-            if (token.tag.startsWith('R')) tokens_ejercicios.adverbios.push(token.form);
-            if (token.tag.match(/^V[MS][A-Z0]P.*$/)) tokens_ejercicios.verbos_presente.push(token.form);
-            if (token.tag.match(/^V[MS][A-Z0]S.*$/)) tokens_ejercicios.verbos_pasado.push(token.form);
-            if (token.tag.match(/^V[MS][A-Z0]F.*$/)) tokens_ejercicios.verbos_futuro.push(token.form);
+            if (token.tag.match(/^A[A-Z0]{2}M.*$/)) tokens_ejercicios.adjetivos_masculinos.push(token.form.toLowerCase());
+            if (token.tag.match(/^A[A-Z0]{2}F.*$/)) tokens_ejercicios.adjetivos_femeninos.push(token.form.toLowerCase());
+            if (token.tag.match(/^A[A-Z0]{2}P.*$/)) tokens_ejercicios.adjetivos_plurales.push(token.form.toLowerCase());
+            if (token.tag.startsWith('R')) tokens_ejercicios.adverbios.push(token.form.toLowerCase());
+            if (token.tag.match(/^V[MS][A-Z0]P.*$/)) tokens_ejercicios.verbos_presente.push(token.form.toLowerCase());
+            if (token.tag.match(/^V[MS][A-Z0]S.*$/)) tokens_ejercicios.verbos_pasado.push(token.form.toLowerCase());
+            if (token.tag.match(/^V[MS][A-Z0]F.*$/)) tokens_ejercicios.verbos_futuro.push(token.form.toLowerCase());
           });
           this.setState(tokens_ejercicios, ()=> {
           });
@@ -90,17 +94,17 @@ export default class Uploader extends React.Component {
 
   renderOptions() {
     return [
-      <option value='all'>Todos</option>,
-      <option>1</option>,
-      <option>2</option>,
-      <option>3</option>,
-      <option>4</option>,
-      <option>5</option>,
-      <option>6</option>,
-      <option>7</option>,
-      <option>8</option>,
-      <option>9</option>,
-      <option>10</option>
+      <option key='0' value='all'>Todos</option>,
+      <option key='1'>1</option>,
+      <option key='2'>2</option>,
+      <option key='3'>3</option>,
+      <option key='4'>4</option>,
+      <option key='5'>5</option>,
+      <option key='6'>6</option>,
+      <option key='7'>7</option>,
+      <option key='8'>8</option>,
+      <option key='9'>9</option>,
+      <option key='10'>10</option>
     ];
   }
 

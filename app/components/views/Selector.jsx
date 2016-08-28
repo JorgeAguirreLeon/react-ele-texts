@@ -13,6 +13,7 @@ export default class Selector extends React.Component {
   }
 
   componentWillMount() {
+    if (window.location.search != '?') window.location.search = '?';
     const active_text = Session.getActiveText();
     this.setState({active_text: active_text});
   }
