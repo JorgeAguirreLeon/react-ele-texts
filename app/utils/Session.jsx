@@ -7,8 +7,6 @@ const Session = {
   },
 
   getActiveText: ()=> {
-    console.log(Data);
-    console.log(Data.base);
     const item = localStorage.getItem('active_text');
     if (item != null) return item
     //Set a nice default

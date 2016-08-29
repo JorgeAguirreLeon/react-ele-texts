@@ -80,10 +80,10 @@ export default class Answer extends React.Component {
 
     return (
       <div className='row'>
-        <div className='col-xs-8 col-sm-8 col-md-9 col-lg-9'>
+        <div className='col-xs-12 col-sm-8 col-md-9 col-lg-9'>
           <TagsAnswer onChange={this.handleTagsChange} tags={this.state.tags}/>
         </div>
-        <div className='col-xs-4 col-sm-4 col-md-3 col-lg-3'>
+        <div className='col-xs-12 col-sm-4 col-md-3 col-lg-3'>
           <button className='btn btn-block btn-primary btn-assert' onClick={this.handleAnswerClick} disabled={disabled}>Comprobar</button>
         </div>
         {alert}

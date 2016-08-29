@@ -89,7 +89,9 @@ export default class Uploader extends React.Component {
   }
 
   handleTagsChange(source, tags) {
-    this.setState({source: tags});
+    let data = {}
+    data[source] = tags;
+    this.setState(data);
   }
 
   renderOptions() {
