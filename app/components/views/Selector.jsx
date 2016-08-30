@@ -17,9 +17,7 @@ export default class Selector extends React.Component {
     if (window.location.search != '?') window.location.search = '?';
     const active_text = Session.getActiveText();
     this.setState({active_text: active_text});
-    Data.getTexts((texts)=> {
-      this.setState({texts});
-    })
+    Data.getTexts((texts)=> { this.setState({texts}); });
   }
 
   getDifficulty(difficulty) {
@@ -43,18 +41,18 @@ export default class Selector extends React.Component {
     const active_text = this.state.active_text;
 
     const rows = this.state.texts.map((text, i)=> {
-      const activo = text.id === active_text;
+      const activo = text._id === active_text;
       const difficulty = this.getDifficulty(text.difficulty);
       const button_class = 'btn btn-sm btn-success text-uppercase';
 
       const activo_button = activo ?
         <button type='button' className={button_class} disabled='disabled'>Activado</button>
         :
-        <button onClick={this.clickHandler.bind(self, text.id)} type='button' className={button_class}>Activar</button>;
+        <button onClick={this.clickHandler.bind(self, text._id)} type='button' className={button_class}>Activar</button>;
 
       return (
         <tr key={i}>
-          <td>{text.title}</td>
+          <td>{text.name}</td>
           <td className='text-center'>{difficulty}</td>
           <td className='text-center'>{text.tests.length}</td>
           <td className='text-center'>{activo_button}</td>

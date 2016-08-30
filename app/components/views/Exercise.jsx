@@ -11,7 +11,7 @@ export default class Exercise extends React.Component {
     this.state = {
       active_text: {
         text: [],
-        titile: '',
+        name: '',
         difficulty: 'easy',
         tests: []
       }
@@ -30,7 +30,7 @@ export default class Exercise extends React.Component {
     return (
       <Evaluation
         text={this.state.active_text.text}
-        title={this.state.active_text.title}
+        title={this.state.active_text.name}
         difficulty={this.state.active_text.difficulty}
         tests={this.state.active_text.tests}
       />

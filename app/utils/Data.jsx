@@ -1,7 +1,7 @@
 const Data = {
 
   getTextWithId: (text_id, cb)=> {
-    if (text_id === Data.base().id) return cb(Data.base());
+    if (text_id === Data.base()._id) return cb(Data.base());
     const host = '/texts/' + text_id;
     const request = new XMLHttpRequest();
     request.onreadystatechange = ()=> {
@@ -35,8 +35,8 @@ const Data = {
 
   base: ()=> {
     return {
-      'id': 'rana_roja',
-      'title': 'La rana roja 🐸',
+      '_id': 'rana_roja',
+      'name': 'La rana roja 🐸',
       'difficulty': 'easy',
       'text': [
         'Había una vez una rana roja que saltaba mucho. Un día, la rana colorada iba brincando de charco en charco y tropezó bruscamente con roca afilada. La rana roja se lastimó la patita y fue al médico que estaba junto al arbusto frondoso. El médico le miró la pata y le puso una escayola blanca, tan blanca que brillaba por la noche. Antes de llegar a casa, la rana se encontró a sus mejores amigos que iban a la charca mayor. La charca mayor era la más divertida de todo el estanque de la ciudad; con toboganes coloridos,  zona de olas, zona de columpios acuáticos y muchas cosas más.',

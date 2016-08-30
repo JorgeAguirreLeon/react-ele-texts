@@ -10,8 +10,8 @@ const Session = {
     const item = localStorage.getItem('active_text');
     if (item != null) return item
     //Set a nice default
-    Session.saveActiveText(Data.base().id);
-    return Data.base().id;
+    Session.saveActiveText(Data.base()._id);
+    return Data.base()._id;
   }
 }
 

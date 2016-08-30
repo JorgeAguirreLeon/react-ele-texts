@@ -1,6 +1,7 @@
 import React            from 'react';
 import Blockquote       from '../Blockquote'
 import TagsAnswer       from '../TagsAnswer'
+import reqwest          from 'reqwest'
 
 export default class Uploader extends React.Component {
 
@@ -10,18 +11,29 @@ export default class Uploader extends React.Component {
     this.state = {
       input_text: '',
       text_submitted: false,
+      form_sent: false,
       adjetivos_masculinos: [],
+      cantidad_adjetivos_masculinos: 'all',
       adjetivos_femeninos: [],
+      cantidad_adjetivos_femeninos: 'all',
       adjetivos_plurales: [],
+      cantidad_adjetivos_plurales: 'all',
       adverbios: [],
+      cantidad_adverbios: 'all',
       verbos_presente: [],
+      cantidad_verbos_presente: 'all',
       verbos_pasado: [],
+      cantidad_verbos_pasado: 'all',
       verbos_futuro: [],
+      cantidad_verbos_futuro: 'all',
+      titulo: '',
+      dificultad: 'easy'
     };
     this.handleTextareaChange = this.handleTextareaChange.bind(this);
     this.handleTextSubmit = this.handleTextSubmit.bind(this);
     this.renderProcessedText = this.renderProcessedText.bind(this);
     this.renderUploadForm = this.renderUploadForm.bind(this);
+    this.handleFormSubmit = this.handleFormSubmit.bind(this);
   }
 
   componentWillMount() {
@@ -64,8 +76,7 @@ export default class Uploader extends React.Component {
             if (token.tag.match(/^V[MS][A-Z0]S.*$/)) tokens_ejercicios.verbos_pasado.push(token.form.toLowerCase());
             if (token.tag.match(/^V[MS][A-Z0]F.*$/)) tokens_ejercicios.verbos_futuro.push(token.form.toLowerCase());
           });
-          this.setState(tokens_ejercicios, ()=> {
-          });
+          this.setState(tokens_ejercicios);
         }
       }
       request.open('GET', host, true); // true for asynchronous
@@ -110,13 +121,99 @@ export default class Uploader extends React.Component {
     ];
   }
 
+  handleFormSubmit() {
+    const data = {
+      title: this.state.titulo,
+      difficulty: this.state.dificultad,
+      text: this.state.input_text,
+      tests: [
+        {
+          word_type: 'adjetivos_masculinos',
+          request: this.state.cantidad_adjetivos_masculinos,
+          answer: this.state.adjetivos_masculinos
+        },
+        {
+          word_type: 'adjetivos_femeninos',
+          request: this.state.cantidad_adjetivos_femeninos,
+          answer: this.state.adjetivos_femeninos
+        },
+        {
+          word_type: 'adjetivos_plurales',
+          request: this.state.cantidad_adjetivos_plurales,
+          answer: this.state.adjetivos_plurales
+        },
+        {
+          word_type: 'adverbios',
+          request: this.state.cantidad_adverbios,
+          answer: this.state.adverbios
+        },
+        {
+          word_type: 'verbos_presente',
+          request: this.state.cantidad_verbos_presente,
+          answer: this.state.verbos_presente
+        },
+        {
+          word_type: 'verbos_pasado',
+          request: this.state.cantidad_verbos_pasado,
+          answer: this.state.verbos_pasado
+        },
+        {
+          word_type: 'verbos_futuro',
+          request: this.state.cantidad_verbos_futuro,
+          answer: this.state.verbos_futuro
+        }
+      ]
+    }
+    let request = reqwest({url: '/upload_text', method: 'post', data: JSON.stringify(data), type: 'json', contentType: 'application/json'});
+
+    const showError = (title, message)=> {
+      if (Notification.permission === 'granted') {
+        let notification = new Notification(title, {
+          body: message,
+          icon: 'assets/img/logos/agora-logo.png',
+          vibration: [200, 100, 200]
+        });
+        notification.onclick = (event)=> { notification.close(); };
+      }
+      else {
+        Notification.requestPermission((permission)=> {
+          if (permission === 'granted') {
+            let notification = new Notification(title, {
+              body: message,
+              vibration: [200, 100, 200]
+            });
+            notification.onclick = (event)=> { notification.close(); };
+          }
+        });
+      }
+    }
+
+    request.then(
+      (res)=> {
+        if (res.result === 'ok') window.location.hash = 'select';
+        else showError('Error', 'Revisa los datos del formulario y vuelve a intentarlo');
+      },
+      (res)=> { showError('Error', 'Ha surgido un error. Contacta con el profesor responsable'); }
+    );
+  }
+
   renderUploadForm() {
     if (!this.state.text_submitted) return null;
     return (
       <form className='exercise-selector'>
         <div className='form-group'>
          <label className='title-label' htmlFor='title'>Título del texto</label>
-         <input type='text' className='form-control' placeholder='Título' />
+         <input type='text' className='form-control' placeholder='Título' onChange={(event)=>{ this.setState({titulo: event.target.value}); }}/>
+         <div className='row select-row'>
+           <div className='col-xs-12'>
+             <label className='select-label'>Dificultad:</label>
+             <select className='form-control select-quantity' onChange={(event)=>{ this.setState({dificultad: event.target.value}); }}>
+               <option value='easy'>Fácil</option>
+               <option value='medium'>Medio</option>
+               <option value='hard'>Difícil</option>
+             </select>
+           </div>
+         </div>
        </div>
        <hr className='section-separator' />
        <div className='form-group'>
@@ -124,7 +221,7 @@ export default class Uploader extends React.Component {
           <div className='row select-row'>
             <div className='col-xs-12'>
               <label className='select-label'>Cantidad a identificar:</label>
-              <select className='form-control select-quantity'>{this.renderOptions()}</select>
+              <select className='form-control select-quantity' onChange={(event)=>{ this.setState({cantidad_adjetivos_masculinos: event.target.value}); }}>{this.renderOptions()}</select>
             </div>
           </div>
          <TagsAnswer onChange={this.handleTagsChange.bind(this, 'adjetivos_masculinos')} tags={this.state.adjetivos_masculinos}/>
@@ -135,7 +232,7 @@ export default class Uploader extends React.Component {
           <div className='row select-row'>
             <div className='col-xs-12'>
               <label className='select-label'>Cantidad a identificar:</label>
-              <select className='form-control select-quantity'>{this.renderOptions()}</select>
+              <select className='form-control select-quantity' onChange={(event)=>{ this.setState({cantidad_adjetivos_femeninos: event.target.value}); }}>{this.renderOptions()}</select>
             </div>
           </div>
          <TagsAnswer onChange={this.handleTagsChange.bind(this, 'adjetivos_femeninos')} tags={this.state.adjetivos_femeninos}/>
@@ -146,7 +243,7 @@ export default class Uploader extends React.Component {
           <div className='row select-row'>
             <div className='col-xs-12'>
               <label className='select-label'>Cantidad a identificar:</label>
-              <select className='form-control select-quantity'>{this.renderOptions()}</select>
+              <select className='form-control select-quantity' onChange={(event)=>{ this.setState({cantidad_adjetivos_plurales: event.target.value}); }}>{this.renderOptions()}</select>
             </div>
           </div>
          <TagsAnswer onChange={this.handleTagsChange.bind(this, 'adjetivos_plurales')} tags={this.state.adjetivos_plurales}/>
@@ -157,7 +254,7 @@ export default class Uploader extends React.Component {
           <div className='row select-row'>
             <div className='col-xs-12'>
               <label className='select-label'>Cantidad a identificar:</label>
-              <select className='form-control select-quantity'>{this.renderOptions()}</select>
+              <select className='form-control select-quantity' onChange={(event)=>{ this.setState({cantidad_adverbios: event.target.value}); }}>{this.renderOptions()}</select>
             </div>
           </div>
          <TagsAnswer onChange={this.handleTagsChange.bind(this, 'adverbios')} tags={this.state.adverbios}/>
@@ -168,7 +265,7 @@ export default class Uploader extends React.Component {
           <div className='row select-row'>
             <div className='col-xs-12'>
               <label className='select-label'>Cantidad a identificar:</label>
-              <select className='form-control select-quantity'>{this.renderOptions()}</select>
+              <select className='form-control select-quantity' onChange={(event)=>{ this.setState({cantidad_verbos_presente: event.target.value}); }}>{this.renderOptions()}</select>
             </div>
           </div>
          <TagsAnswer onChange={this.handleTagsChange.bind(this, 'verbos_presente')} tags={this.state.verbos_presente}/>
@@ -179,7 +276,7 @@ export default class Uploader extends React.Component {
           <div className='row select-row'>
             <div className='col-xs-12'>
               <label className='select-label'>Cantidad a identificar:</label>
-              <select className='form-control select-quantity'>{this.renderOptions()}</select>
+              <select className='form-control select-quantity' onChange={(event)=>{ this.setState({cantidad_verbos_pasado: event.target.value}); }}>{this.renderOptions()}</select>
             </div>
           </div>
          <TagsAnswer onChange={this.handleTagsChange.bind(this, 'verbos_pasado')} tags={this.state.verbos_pasado}/>
@@ -190,13 +287,13 @@ export default class Uploader extends React.Component {
           <div className='row select-row'>
             <div className='col-xs-12'>
               <label className='select-label'>Cantidad a identificar:</label>
-              <select className='form-control select-quantity'>{this.renderOptions()}</select>
+              <select className='form-control select-quantity' onChange={(event)=>{ this.setState({cantidad_verbos_futuro: event.target.value}); }}>{this.renderOptions()}</select>
             </div>
           </div>
          <TagsAnswer onChange={this.handleTagsChange.bind(this, 'verbos_futuro')} tags={this.state.verbos_futuro}/>
        </div>
        <div className='submit-area'>
-         <button className='btn btn-primary upload-button'>Subir texto</button>
+         <button className='btn btn-primary upload-button' onClick={this.handleFormSubmit} disabled={this.state.form_sent ? 'disabled' : null}>Subir texto</button>
        </div>
      </form>
     );
